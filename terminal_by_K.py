@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import messagebox
 import requests
 from datetime import datetime
 
@@ -20,7 +20,7 @@ root.maxsize(width=1680, height=900)
 
 
 # setting up observing variables
-status = tk.StringVar()
+# status = tk.StringVar()
 login = tk.StringVar()
 password = tk.StringVar()
 
@@ -28,7 +28,7 @@ password = tk.StringVar()
 def auth():
     global login, password, user_token
 
-    memo_2.config(text=login.get())
+    # memo_2.config(text=login.get())
 
     body = {
         "username": login.get(),
@@ -64,13 +64,8 @@ for frame in frame_1, frame_2, frame_3, frame_4:
 
 
 
-memo_1 = tk.Message(frame_4, textvariable=status, font=("Arial", "12", "bold"), bg="#FFFFFF", anchor=tk.W)
-memo_2 = tk.Message(frame_4, font=("Arial", "16", "bold"), bg="#FFFFFF", fg="red", anchor=tk.CENTER, aspect=1000)
-
-
-# setting up first frame
-login = tk.StringVar()
-password = tk.StringVar()
+# memo_1 = tk.Message(frame_4, textvariable=status, font=("Arial", "12", "bold"), bg="#FFFFFF", anchor=tk.W)
+# memo_2 = tk.Message(frame_4, font=("Arial", "16", "bold"), bg="#FFFFFF", fg="red", anchor=tk.CENTER, aspect=1000)
 
 frame_1_1 = tk.Frame(frame_1, highlightbackground="#171717", highlightthickness=1, bg="#FFFFFF", padx=1, pady=1)
 label_1 = tk.Label(frame_1_1, text="login:", font=("Arial", "12", "normal"), anchor=tk.W, bg="#FFFFFF") 

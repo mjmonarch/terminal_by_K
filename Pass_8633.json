@@ -1,0 +1,119 @@
+{
+    "datetime": "2022-11-02T08:51:52.799+00:00",
+    "uuid": "f9fc3dfe-e471-44eb-8603-b925e2160bcb",
+    "deviceId": "ffd5f05a-5044-420f-b427-eae7327d6da3",
+    "eventDeviceId": "8633",
+    "origin": {
+        "uuid": "ffd5f05a-5044-420f-b427-eae7327d6da3",
+        "name": "P-62",
+        "serial": "",
+        "location": {
+            "latitude": 48.15976,
+            "longitude": 25.08762
+        },
+        "type": {
+            "t_install": 1
+        }
+    },
+    "measurements": [
+        {
+            "key": "speed-main",
+            "value": 47
+        },
+        {
+            "key": "weight-full",
+            "value": 42600
+        },
+        {
+            "key": "length",
+            "value": 0
+        },
+        {
+            "key": "width",
+            "value": 0
+        },
+        {
+            "key": "height",
+            "value": 0
+        },
+        {
+            "key": "axlecount",
+            "value": 1
+        },
+        {
+            "key": "air-temperature",
+            "value": 9.6386178334554
+        }
+    ],
+    "vehicle": {
+        "plate": [
+            {
+                "text": "AT1347CP",
+                "country": "804",
+                "placement": "front",
+                "precision": 91
+            },
+            {
+                "text": "AT3907ET",
+                "country": "804",
+                "placement": "front",
+                "precision": 94
+            },
+            {
+                "text": "BH5695XE",
+                "country": "804",
+                "placement": "rear",
+                "precision": 88
+            }
+        ],
+        "axlesLayout": null,
+        "params": [
+            {
+                "key": "class",
+                "value": 20
+            },
+            {
+                "key": "lane",
+                "value": "0"
+            }
+        ]
+    },
+    "flags": [
+        {
+            "key": "PARTIAL_AXLE",
+            "value": ""
+        }
+    ],
+    "media": [
+        {
+            "type": "front",
+            "baseurl": "",
+            "name": "8633_1.jpeg",
+            "datetime": "2022-11-02T10:51:59.007+03:00",
+            "hash": [
+                "gost34311",
+                "e65c51ebfa72e2bcb82032f41fe12fd7"
+            ]
+        },
+        {
+            "type": "front",
+            "baseurl": "",
+            "name": "8633_2.jpeg",
+            "datetime": "2022-11-02T10:51:56.327+03:00",
+            "hash": [
+                "gost34311",
+                "ce31ae375ee01ed759c5b3373a38d3e2"
+            ]
+        },
+        {
+            "type": "rear",
+            "baseurl": "",
+            "name": "8633_3.jpeg",
+            "datetime": "2022-11-02T10:51:53.217+03:00",
+            "hash": [
+                "gost34311",
+                "26a93de7d6efd9d98e421a3df05871e4"
+            ]
+        }
+    ]
+}

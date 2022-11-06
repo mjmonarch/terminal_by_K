@@ -1,0 +1,359 @@
+{
+    "type": "weighing",
+    "uuid": "da151369-4b33-4179-b5a8-d9d8fb485fc5",
+    "media": [
+      {
+        "hash": [
+          "gost34311",
+          "83e1bc421abfb8dd690dd9f0c63c8e0af78649de941b0cd577ff6bbc2b1dde6d"
+        ],
+        "name": "1_8459971599922082374.jpg",
+        "type": "plate",
+        "baseurl": "",
+        "datetime": "2022-10-01T09:50:17.804+03:00",
+        "storagePath": "wim/a4a465e4-ae09-445b-9a8c-cfac6de3ca63/202210/01/d8691752-2f2b-f119-faff-3f1a0b8de7ca/1_8459971599922082374.jpg"
+      },
+      {
+        "hash": [
+          "gost34311",
+          "568c404daa3a3d6b414dcd5c3be4767abca09017c717b9159c8e9d323386d820"
+        ],
+        "name": "1_8459971599922082376.jpg",
+        "type": "side",
+        "baseurl": "",
+        "datetime": "2022-10-01T09:50:18.660+03:00",
+        "storagePath": "wim/a4a465e4-ae09-445b-9a8c-cfac6de3ca63/202210/01/d8691752-2f2b-f119-faff-3f1a0b8de7ca/1_8459971599922082376.jpg"
+      },
+      {
+        "hash": [
+          "gost34311",
+          "9e48e86f8946841b10689624a2d7f5613ef7f64c358e824b6d86bfc086d44eb1"
+        ],
+        "name": "1_8459971599922082375.jpg",
+        "type": "front",
+        "baseurl": "",
+        "datetime": "2022-10-01T09:50:17.804+03:00",
+        "storagePath": "wim/a4a465e4-ae09-445b-9a8c-cfac6de3ca63/202210/01/d8691752-2f2b-f119-faff-3f1a0b8de7ca/1_8459971599922082375.jpg"
+      },
+      {
+        "hash": [
+          "gost34311",
+          "bb1fab6d52b01937743705cb078cbb3faadf892c2fbebe48cab24df3f3286215"
+        ],
+        "name": "1_8459971599922082377.jpg",
+        "type": "rear",
+        "baseurl": "",
+        "datetime": "2022-10-01T09:50:18.821+03:00",
+        "storagePath": "wim/a4a465e4-ae09-445b-9a8c-cfac6de3ca63/202210/01/d8691752-2f2b-f119-faff-3f1a0b8de7ca/1_8459971599922082377.jpg"
+      }
+    ],
+    "limits": [
+      {
+        "key": "axleload-limit",
+        "value": "11500"
+      },
+      {
+        "key": "axleload-limits",
+        "value": [
+          [
+            1,
+            1,
+            11500
+          ],
+          [
+            2,
+            2,
+            18000
+          ],
+          [
+            3,
+            2,
+            20000
+          ]
+        ]
+      },
+      {
+        "key": "height-limit",
+        "value": "4000"
+      },
+      {
+        "key": "length-limit",
+        "value": "18750"
+      },
+      {
+        "key": "max-overaxleload",
+        "value": "0"
+      },
+      {
+        "key": "max-overgroupload-2",
+        "value": "0"
+      },
+      {
+        "key": "max-overgroupload-3",
+        "value": "0"
+      },
+      {
+        "key": "max-overheight",
+        "value": "60"
+      },
+      {
+        "key": "max-overlength",
+        "value": "600"
+      },
+      {
+        "key": "max-overspeed",
+        "value": "0"
+      },
+      {
+        "key": "max-overweight",
+        "value": "0"
+      },
+      {
+        "key": "max-overwidth",
+        "value": "100"
+      },
+      {
+        "key": "speed-limit",
+        "value": "0"
+      },
+      {
+        "key": "weight-limit",
+        "value": "40000"
+      },
+      {
+        "key": "width-limit",
+        "value": "2600"
+      }
+    ],
+    "origin": {
+      "name": "зав.№1",
+      "type": {
+        "t_install": 1
+      },
+      "uuid": "a4a465e4-ae09-445b-9a8c-cfac6de3ca63",
+      "serial": "WAGA-WIM35",
+      "address": "М-22 Полтава - Олександрія, км 74+810 ",
+      "location": {
+        "latitude": 49.179564,
+        "longitude": 33.799264
+      }
+    },
+    "eventId": "d8691752-2f2b-f119-faff-3f1a0b8de7ca",
+    "vehicle": {
+      "plate": [
+        {
+          "text": "BC8197MK",
+          "country": 804,
+          "placement": "front",
+          "precision": 100
+        }
+      ],
+      "params": [
+        {
+          "key": "class",
+          "value": "9"
+        },
+        {
+          "key": "lane",
+          "value": "1"
+        }
+      ],
+      "laneIndex": 1,
+      "rearPlate": {
+        "empty": true,
+        "present": false
+      },
+      "axleGroups": [
+        {
+          "type": "DUAL",
+          "axles": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "DUAL",
+          "axles": [
+            3,
+            4
+          ]
+        }
+      ],
+      "frontPlate": {
+        "empty": false,
+        "present": true
+      },
+      "axlesLayout": [
+        [
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "classification": 9
+    },
+    "datetime": "2022-10-01T09:50:17.639+03:00",
+    "deviceId": "a4a465e4-ae09-445b-9a8c-cfac6de3ca63",
+    "sourcePath": "wim/a4a465e4-ae09-445b-9a8c-cfac6de3ca63/202210/01/d8691752-2f2b-f119-faff-3f1a0b8de7ca/1_8459971599922082371.json",
+    "measurements": [
+      {
+        "key": "air-temperature",
+        "value": "-999"
+      },
+      {
+        "key": "axlecount",
+        "value": "5"
+      },
+      {
+        "key": "axledistance-1",
+        "value": "4810"
+      },
+      {
+        "key": "axledistance-2",
+        "value": "1410"
+      },
+      {
+        "key": "axledistance-3",
+        "value": "6530"
+      },
+      {
+        "key": "axledistance-4",
+        "value": "1810"
+      },
+      {
+        "key": "axleload-1",
+        "value": "6584"
+      },
+      {
+        "key": "axleload-2",
+        "value": "7684"
+      },
+      {
+        "key": "axleload-3",
+        "value": "4427"
+      },
+      {
+        "key": "axleload-4",
+        "value": "4335"
+      },
+      {
+        "key": "axleload-5",
+        "value": "4535"
+      },
+      {
+        "key": "groupload-1",
+        "value": "6584"
+      },
+      {
+        "key": "groupload-2",
+        "value": "12111"
+      },
+      {
+        "key": "groupload-3",
+        "value": "8870"
+      },
+      {
+        "key": "height",
+        "value": "4099"
+      },
+      {
+        "key": "length",
+        "value": "18643"
+      },
+      {
+        "key": "overaxlegroupload_2-2",
+        "value": "0"
+      },
+      {
+        "key": "overaxlegroupload_2-3",
+        "value": "0"
+      },
+      {
+        "key": "overaxleload-1",
+        "value": "0"
+      },
+      {
+        "key": "overaxleload-2",
+        "value": "0"
+      },
+      {
+        "key": "overaxleload-3",
+        "value": "0"
+      },
+      {
+        "key": "overaxleload-4",
+        "value": "0"
+      },
+      {
+        "key": "overaxleload-5",
+        "value": "0"
+      },
+      {
+        "key": "overheight",
+        "value": "1"
+      },
+      {
+        "key": "overlength",
+        "value": "0"
+      },
+      {
+        "key": "oversized",
+        "value": "1"
+      },
+      {
+        "key": "overweighted",
+        "value": "0"
+      },
+      {
+        "key": "overwidth",
+        "value": "0"
+      },
+      {
+        "key": "road-temperature",
+        "value": "18"
+      },
+      {
+        "key": "speed-main",
+        "value": "70"
+      },
+      {
+        "key": "weight-full",
+        "value": "27565"
+      },
+      {
+        "key": "wheeltype",
+        "value": "2"
+      },
+      {
+        "key": "wheeltype-1",
+        "value": "1"
+      },
+      {
+        "key": "wheeltype-2",
+        "value": "2"
+      },
+      {
+        "key": "wheeltype-3",
+        "value": "1"
+      },
+      {
+        "key": "wheeltype-4",
+        "value": "1"
+      },
+      {
+        "key": "wheeltype-5",
+        "value": "1"
+      },
+      {
+        "key": "width",
+        "value": "2591"
+      }
+    ],
+    "eventDeviceId": "3411737"
+  }

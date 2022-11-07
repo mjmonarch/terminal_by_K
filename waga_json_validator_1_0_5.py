@@ -1,5 +1,4 @@
 import json
-import sys
 import uuid
 import re
 import copy
@@ -80,15 +79,15 @@ class WAGA_JSON_VALIDATOR_1_0_5:
             "vehicle": {
                 "plate": [
                     {
-                        "country": "ISO3166_1_INTEGER",
+                        "country": "ISO3166_1_int",
                         "text": "str",
                         "placement": "front|rear",
-                        "precision": "int",
+                        "precision": "int_0_100",
                     }
                 ],
                 "params": [
                     "key-value",
-                    {"values": [("class", "vehicle_class"), ("lane", "+int")]},
+                    {"values": [("class", "vehicle_class"), ("lane", "+int_0")]},
                 ],
                 "axlesLayout": "numeric_array",
             }
@@ -131,40 +130,33 @@ class WAGA_JSON_VALIDATOR_1_0_5:
 
         def is_valid_uuid(uuid_to_test):
             try:
-                uuid_obj = uuid.UUID(uuid_to_test)
+                return str(uuid.UUID(uuid_to_test)) == uuid_to_test
             except ValueError:
                 return False
-            return str(uuid_obj) == uuid_to_test
 
         def is_valid_datetime_ISO8601(dt_to_test):
             regex = r"^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$"
             match_ISO_8601 = re.compile(regex).match
             try:
-                if match_ISO_8601(dt_to_test) is not None:
-                    return True
+                return match_ISO_8601(dt_to_test) is not None
             except:
                 return False
-            return False
 
         def is_valid_WGS84(coord_to_test):
             regex = r"^[0-9]+\.[0-9]+$"
             match_WGS_84 = re.compile(regex).match
             try:
-                if match_WGS_84(str(coord_to_test)) is not None:
-                    return True
+                return match_WGS_84(str(coord_to_test)) is not None
             except:
                 return False
-            return False
 
         def is_valid_numerical(number_to_test):
             regex = r"^-?[0-9]+$"
             match_number = re.compile(regex).match
             try:
-                if match_number(str(number_to_test)) is not None:
-                    return True
+                return match_number(str(number_to_test)) is not None
             except:
                 return False
-            return False
 
         def is_valid_ISO3166_1(number_to_test):
             if not isinstance(number_to_test, int):
@@ -173,11 +165,9 @@ class WAGA_JSON_VALIDATOR_1_0_5:
             regex = r"^[0-9]{3}$"
             match_number = re.compile(regex).match
             try:
-                if match_number(str(number_to_test)) is not None:
-                    return True
+                return match_number(str(number_to_test)) is not None
             except:
                 return False
-            return False
 
         def is_numeric_array(object_to_test):
             if not isinstance(object_to_test, list):
@@ -190,18 +180,13 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                         return False
             return True
 
-        def validate_key_value_array(json_schema, json_data, path):
-            result = True
-            meta = copy.deepcopy(json_schema)
-            data = copy.deepcopy(json_data)
-
-            # adding dependent items to schema
-            if "dependent-values" in meta.keys():
-                for item in meta["dependent-values"]:
+        def add_dependent_values(json_schema, json_data):
+            if "dependent-values" in json_schema.keys():
+                for item in json_schema["dependent-values"]:
                     x_value = item[0]
                     quantity = 0
                     # search for received value
-                    for data_element in data:
+                    for data_element in json_data:
                         if isinstance(data_element, dict) and all(
                             item in data_element.keys() for item in ("key", "value")
                         ):
@@ -213,42 +198,40 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                         for i in range(1, quantity + 1):
                             key = item[2].replace(item[3], str(i))
                             value = item[4]
-                            meta["values"].append((key, value))
-
-            # checking mandatory keys
-            if "values" in meta.keys():
+                            json_schema["values"].append((key, value))
+        
+        def check_for_keys(keys_type, json_schema, json_data, data_copy, path):
+            result = True
+            if keys_type in json_schema.keys():
                 for data_element in json_data:
                     if isinstance(data_element, dict) and all(
                         item in data_element.keys() for item in ("key", "value")
                     ):
                         key, value = data_element["key"], str(data_element["value"])
-                        # search for key in schema mandatory items
-                        for item in meta["values"]:
+                        # search for key in schema
+                        for item in json_schema[keys_type]:
                             if key == item[0]:
                                 if not type_validators[item[1]](value):
                                     result = False
-                                    log[
-                                        path + f"key:{key}:"
-                                    ] = f"value type mismatch: {value} is not of type: {item[1]}"
-                                meta["values"].remove(item)
-                                data.remove(data_element)
+                                    log[path + f"key:{key}:"] = f"value type mismatch: {value} is not of type: {item[1]}"
+                                json_schema[keys_type].remove(item)
+                                data_copy.remove(data_element)
                                 break
+            return result
+
+        def validate_key_value_array(json_schema, json_data, path):
+            result = True
+
+            # adding dependent items to schema
+            meta = copy.deepcopy(json_schema)
+            add_dependent_values(meta, json_data)
+
+            # checking mandatory keys
+            data = copy.deepcopy(json_data)
+            result = check_for_keys("values", meta, json_data, data, path) and result
 
             # checking non-mandatory keys
-            if "non-mandatory values" in meta.keys():
-                for data_element in data:
-                    if isinstance(data_element, dict) and all(
-                        item in data_element.keys() for item in ("key", "value")
-                    ):
-                        key, value = data_element["key"], str(data_element["value"])
-                        for item in meta["non-mandatory values"]:
-                            if key == item[0]:
-                                if not type_validators[item[1]](value):
-                                    result = False
-                                    log[
-                                        path + f"key:{key}:"
-                                    ] = f"value type mismatch: {value} is not of type: {item[1]}"
-                                meta["non-mandatory values"].remove(item)
+            result = check_for_keys("non-mandatory values", meta, copy.deepcopy(data), data, path) and result
 
             # check if there are left some unreceived key-value objects
             if "values" in meta.keys():
@@ -261,73 +244,54 @@ class WAGA_JSON_VALIDATOR_1_0_5:
         def validate_element_structural(json_schema, json_data, path):
             result = True
 
-            for json_schema_key_ in json_schema.keys():
-                # check that psrticular key is non-mandatory
-                json_schema_key = (
-                    json_schema_key_[2:]
-                    if json_schema_key_.startswith("__")
-                    else json_schema_key_
-                )
-
-                # check that particular key is present in given json data
-                if json_schema_key in json_data.keys():
-
-                    # if key is a dictionary
-                    if isinstance(json_schema[json_schema_key_], dict):
-                        result = result and validate_element_structural(
-                            json_schema[json_schema_key_],
-                            json_data[json_schema_key],
-                            path + json_schema_key + ".",
-                        )
-
-                    # if key is a list
-                    elif isinstance(json_schema[json_schema_key_], list):
-                        if not isinstance(json_data[json_schema_key], list):
-                            result = False
-                            log[
-                                path + json_schema_key
-                            ] = f"type mismatch: {json_data[json_schema_key]} is not of type: list"
-                        elif len(json_data[json_schema_key]) == 0:
-                            result = False
-                            if not json_schema_key_.startswith("__"):
-                                log[
-                                    path + json_schema_key
-                                ] = f"missing values: {json_data[json_schema_key]} is an empty list"
-                        elif json_schema[json_schema_key_][0] == "key-value":
-                            result = result and validate_key_value_array(
-                                json_schema[json_schema_key_][1],
-                                json_data[json_schema_key],
-                                path + json_schema_key + ".",
-                            )
-                        else:
-                            for data_element in json_data[json_schema_key]:
-                                result = result and validate_element_structural(
-                                    json_schema[json_schema_key_][0],  # [0]
-                                    data_element,
-                                    path + json_schema_key + ".",
-                                )
-
-                    # if key is a single string
-                    else:
-                        if not type_validators[json_schema[json_schema_key_]](
-                            json_data[json_schema_key]
-                        ):
-                            result = False
-                            log[
-                                path + json_schema_key
-                            ] = f"type mismatch: {json_data[json_schema_key]} is not of type: {json_schema[json_schema_key_]}"
-
-                else:
-                    if not json_schema_key_.startswith("__"):
+            for key_ in json_schema.keys():
+                # check that particular key is mandatory or not
+                key = key_[2:] if key_.startswith("__") else key_
+    
+                # check that particular key is present in given json data (only for mandatory keys)
+                if key not in json_data.keys():
+                    if not key_.startswith("__"):
                         result = False
-                        log[path + json_schema_key] = "missing value"
+                        log[path + key] = "missing value"
+                    continue
+
+                # # check that value for partucular key in data has appropriate type
+                # if not isinstance(json_schema[key_], type(json_data[key])):
+                #     result = False
+                #     log[path + key] = f"type mismatch: {json_data[key]} is not of type: {type(json_schema[key])}"
+
+                value = json_schema[key_]
+                # if value is a single string
+                if isinstance(value, str):
+                    # check type for data type according to json_schema
+                    if not type_validators[value](json_data[key]):
+                        result = False
+                        log[path + key] = f"type mismatch: {json_data[key]} is not of type: {value}"
+                # value is a container
+                else:
+                    # check for type compatibility
+                    if not isinstance(value, type(json_data[key])):
+                        result = False
+                        log[path + key] = f"type mismatch: {json_data[key]} is not of type: {type(value)}"
+                    # if value is a dictionary
+                    elif isinstance(value, dict) :
+                        result = result and validate_element_structural(value, json_data[key], path +key + ".")
+                    # if value is a list
+                    elif isinstance(value, list):
+                        # check if it is key-value array
+                        if value[0] == "key-value":
+                            result = validate_key_value_array(value[1], json_data[key], path + key + ".")
+                        # or it is ordinar array: just iterate through it
+                        else:
+                            for data in json_data[key]:
+                                result = validate_element_structural(value[0], data, path + key + ".")
 
             return result
 
-        def validate_element_functional(json_schema, json_data):
+        # TODO: add functional compliance testing
+        def validate_element_functional(json_data):
             return True
 
-            # 1. check that
 
         result = True
         log = dict()
@@ -337,34 +301,32 @@ class WAGA_JSON_VALIDATOR_1_0_5:
             "str": lambda x: True,
             "ISO8601": is_valid_datetime_ISO8601,
             "WGS84": is_valid_WGS84,
-            "+int": lambda x: x.isdigit(),
+            "+int": lambda x: x.isdigit() and int(x) > 0,
+            "+int_0": lambda x: x.isdigit(),
+            "int_0_100": lambda x: isinstance(x, int) and 0 <= x <= 100,
             "int": is_valid_numerical,
             "0|1|2": lambda x: str(x) == "0" or str(x) == "1" or str(x) == "2",
-            "ISO3166_1_INTEGER": is_valid_ISO3166_1,
+            "ISO3166_1_int": is_valid_ISO3166_1,
             "front|rear": lambda x: x == "front" or x == "rear",
-            "vehicle_class": lambda x: (
-                (isinstance(x, str) and x.isdigit()) or isinstance(x, int)
-            )
-            and 3 <= int(x) <= 20,
+            "vehicle_class": lambda x: ((isinstance(x, str) and x.isdigit()) or isinstance(x, int)) and 3 <= int(x) <= 20,
             "numeric_array": is_numeric_array,
-            "media_type": lambda x: x
-            in ["plate", "plater", "front", "rear", "side", "sideb"],
+            "media_type": lambda x: x in ["plate", "plater", "front", "rear", "side", "sideb"],
             "hash_array": lambda x: isinstance(x, list) and len(x) == 2,
         }
 
+        # do structural checking: compliance with json schema
         for group in cls.JSON_SCHEMA:
             print(f"{group}: {cls.JSON_SCHEMA[group].items()}")
-            result = result and validate_element_structural(
-                cls.JSON_SCHEMA[group], json_obj, ""
-            )
-            result = result and validate_element_functional(
-                cls.JSON_SCHEMA[group], json_obj
-            )
+            result = validate_element_structural(cls.JSON_SCHEMA[group], json_obj, "") and result
+
+        # do functional checking    
+        result = validate_element_functional(json_obj) and result
 
         if result:
             return True, None
         else:
             return False, json.dumps(log)
+
 
     @classmethod
     def validate_json_file(cls, json_file):

@@ -20,82 +20,79 @@ class WAGA_JSON_VALIDATOR_1_0_5:
     """
 
     JSON_SCHEMA = {
-        # 1: {"uuid": "UUID"},
-        # 2: {"deviceId": "UUID"},
-        # 3: {"eventDeviceId": "str"},
-        # 4: {"datetime": "ISO8601"},
-        # 6: {
-        #     "origin": {
-        #         "uuid": "UUID",
-        #         "__name": "str",
-        #         "__address": "str",
-        #         "__serial": "str",
-        #         "location": {"latitude": "WGS84", "longitude": "WGS84"},
-        #     }
-        # },
-        # 8: {
-        #     "measurements": [
-        #         "key-value",
-        #         {
-        #             "values": [
-        #                 ("speed-main", "+int"),
-        #                 ("weight-full", "+int"),
-        #                 ("length", "+int"),
-        #                 ("width", "+int"),
-        #                 ("height", "+int"),
-        #                 ("axlecount", "+int"),
-        #             ],
-        #             "non-mandatory values": [
-        #                 ("road-temperature", "int"),
-        #                 ("air-temperature", "int"),
-        #             ],
-        #             "dependent-values": [
-        #                 ("axlecount", 0, "axleload-N", "N", "+int"),
-        #                 ("axlecount", -1, "axledistance-N", "N", "+int"),
-        #                 ("axlecount", 0, "wheeltype-N", "N", "+int"),
-        #             ],
-        #         },
-        #     ]
-        # },
-        # 9: {
-        #     "__flags": [
-        #         "key-value",
-        #         {
-        #             "non-mandatory values": [
-        #                 ("NOT_WIM_LANE", "str"),
-        #                 ("ON_SCALE_MISSED", "str"),
-        #                 ("SPEED_CHANGE", "str"),
-        #                 ("WEIGHT_DIFF", "str"),
-        #                 ("PARTIAL_AXLE", "str"),
-        #                 ("UNEQUAL_AXLE", "str"),
-        #                 ("WRONG_LANE", "str"),
-        #                 ("DRIVER_ISSUE", "str"),
-        #                 ("HARDWARE_ISSUE", "str"),
-        #                 ("INVALID_MEASUREMENT", "str"),
-        #             ],
-        #         },
-        #     ]
-        # },
-        # 10: {
-        #     "vehicle": {
-        #         "plate": [
-        #             {
-        #                 "country": "ISO3166_1_INTEGER",
-        #                 "text": "str",
-        #                 "placement": "front|rear",
-        #                 "precision": "int",
-        
-        #             }
-        #         ],
-        #         "params": [
-        #             "key-value",
-        #             {
-        #                 "values": [("class", "vehicle_class"), ("lane", "+int")]
-        #             }
-        #         ],
-        #         "axlesLayout": "numeric_array"
-        #     }
-        # },
+        1: {"uuid": "UUID"},
+        2: {"deviceId": "UUID"},
+        3: {"eventDeviceId": "str"},
+        4: {"datetime": "ISO8601"},
+        6: {
+            "origin": {
+                "uuid": "UUID",
+                "__name": "str",
+                "__address": "str",
+                "__serial": "str",
+                "location": {"latitude": "WGS84", "longitude": "WGS84"},
+            }
+        },
+        8: {
+            "measurements": [
+                "key-value",
+                {
+                    "values": [
+                        ("speed-main", "+int"),
+                        ("weight-full", "+int"),
+                        ("length", "+int"),
+                        ("width", "+int"),
+                        ("height", "+int"),
+                        ("axlecount", "+int"),
+                    ],
+                    "non-mandatory values": [
+                        ("road-temperature", "int"),
+                        ("air-temperature", "int"),
+                    ],
+                    "dependent-values": [
+                        ("axlecount", 0, "axleload-N", "N", "+int"),
+                        ("axlecount", -1, "axledistance-N", "N", "+int"),
+                        ("axlecount", 0, "wheeltype-N", "N", "0|1|2"),
+                    ],
+                },
+            ]
+        },
+        9: {
+            "__flags": [
+                "key-value",
+                {
+                    "non-mandatory values": [
+                        ("NOT_WIM_LANE", "str"),
+                        ("ON_SCALE_MISSED", "str"),
+                        ("SPEED_CHANGE", "str"),
+                        ("WEIGHT_DIFF", "str"),
+                        ("PARTIAL_AXLE", "str"),
+                        ("UNEQUAL_AXLE", "str"),
+                        ("WRONG_LANE", "str"),
+                        ("DRIVER_ISSUE", "str"),
+                        ("HARDWARE_ISSUE", "str"),
+                        ("INVALID_MEASUREMENT", "str"),
+                    ],
+                },
+            ]
+        },
+        10: {
+            "vehicle": {
+                "plate": [
+                    {
+                        "country": "ISO3166_1_INTEGER",
+                        "text": "str",
+                        "placement": "front|rear",
+                        "precision": "int",
+                    }
+                ],
+                "params": [
+                    "key-value",
+                    {"values": [("class", "vehicle_class"), ("lane", "+int")]},
+                ],
+                "axlesLayout": "numeric_array",
+            }
+        },
         11: {
             "media": [
                 {
@@ -103,10 +100,29 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                     "baseurl": "str",
                     "name": "str",
                     "hash": "hash_array",
-                    "datetime": "ISO8601" 
+                    "datetime": "ISO8601",
                 }
             ]
-        }
+        },
+    }
+
+    VEHICLE_TYPES = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    VEHICLE_TYPE_SCHEMA = {
+        3: [[[1], [2]]],
+        4: [[[1], [2]]],
+        5: [[1], [2, 3]],
+        6: [[[1], [2], [3, 4]], [[1, 2], [3, 4]]],
+        7: [[[1], [2], [3, 4, 5]]],
+        8: [[[1], [2], [3], [4]]],
+        9: [[[1], [2, 3], [4], [5]], [[1], [2, 3], [4, 5]]],
+        10: [[[1], [2], [3], [4, 5]]],
+        11: [[[1], [2, 3], [4], [5, 6]]],
+        12: [[[1], [2], [3]]],
+        13: [[[1], [2], [3, 4]]],
+        14: [[[1], [2], [3, 4, 5]]],
+        15: [[[1], [2, 3], [4, 5]]],
+        16: [[[1], [2, 3], [4, 5, 6]]],
     }
 
     @classmethod
@@ -174,19 +190,17 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                         return False
             return True
 
-
         def validate_key_value_array(json_schema, json_data, path):
             result = True
-
             meta = copy.deepcopy(json_schema)
             data = copy.deepcopy(json_data)
+
             # adding dependent items to schema
             if "dependent-values" in meta.keys():
                 for item in meta["dependent-values"]:
                     x_value = item[0]
                     quantity = 0
                     # search for received value
-                    # TODO: add try
                     for data_element in data:
                         if isinstance(data_element, dict) and all(
                             item in data_element.keys() for item in ("key", "value")
@@ -209,9 +223,7 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                     ):
                         key, value = data_element["key"], str(data_element["value"])
                         # search for key in schema mandatory items
-                        print("AAAA:", meta["values"])    
                         for item in meta["values"]:
-                            print("aaaa", item)
                             if key == item[0]:
                                 if not type_validators[item[1]](value):
                                     result = False
@@ -246,17 +258,23 @@ class WAGA_JSON_VALIDATOR_1_0_5:
 
             return result
 
-        def validate_element(json_schema, json_data, path):
+        def validate_element_structural(json_schema, json_data, path):
             result = True
 
             for json_schema_key_ in json_schema.keys():
-                json_schema_key = json_schema_key_[2:] if json_schema_key_.startswith('__') else json_schema_key_
+                # check that psrticular key is non-mandatory
+                json_schema_key = (
+                    json_schema_key_[2:]
+                    if json_schema_key_.startswith("__")
+                    else json_schema_key_
+                )
+
                 # check that particular key is present in given json data
                 if json_schema_key in json_data.keys():
 
                     # if key is a dictionary
                     if isinstance(json_schema[json_schema_key_], dict):
-                        result = result and validate_element(
+                        result = result and validate_element_structural(
                             json_schema[json_schema_key_],
                             json_data[json_schema_key],
                             path + json_schema_key + ".",
@@ -271,7 +289,7 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                             ] = f"type mismatch: {json_data[json_schema_key]} is not of type: list"
                         elif len(json_data[json_schema_key]) == 0:
                             result = False
-                            if not json_schema_key_.startswith('__'):
+                            if not json_schema_key_.startswith("__"):
                                 log[
                                     path + json_schema_key
                                 ] = f"missing values: {json_data[json_schema_key]} is an empty list"
@@ -283,8 +301,8 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                             )
                         else:
                             for data_element in json_data[json_schema_key]:
-                                result = result and validate_element(
-                                    json_schema[json_schema_key_][0], #[0]
+                                result = result and validate_element_structural(
+                                    json_schema[json_schema_key_][0],  # [0]
                                     data_element,
                                     path + json_schema_key + ".",
                                 )
@@ -300,11 +318,16 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                             ] = f"type mismatch: {json_data[json_schema_key]} is not of type: {json_schema[json_schema_key_]}"
 
                 else:
-                    if not json_schema_key_.startswith('__'):
+                    if not json_schema_key_.startswith("__"):
                         result = False
                         log[path + json_schema_key] = "missing value"
 
             return result
+
+        def validate_element_functional(json_schema, json_data):
+            return True
+
+            # 1. check that
 
         result = True
         log = dict()
@@ -316,25 +339,32 @@ class WAGA_JSON_VALIDATOR_1_0_5:
             "WGS84": is_valid_WGS84,
             "+int": lambda x: x.isdigit(),
             "int": is_valid_numerical,
+            "0|1|2": lambda x: str(x) == "0" or str(x) == "1" or str(x) == "2",
             "ISO3166_1_INTEGER": is_valid_ISO3166_1,
             "front|rear": lambda x: x == "front" or x == "rear",
-            "vehicle_class": lambda x: ((isinstance(x, str) and x.isdigit()) or isinstance(x, int)) and 3 <= int(x) <= 20,
+            "vehicle_class": lambda x: (
+                (isinstance(x, str) and x.isdigit()) or isinstance(x, int)
+            )
+            and 3 <= int(x) <= 20,
             "numeric_array": is_numeric_array,
-            "media_type": lambda x: x in ["plate", "plater", "front", "rear", "side", "sideb"],
-            "hash_array": lambda x: isinstance(x, list) and len(x) == 2
+            "media_type": lambda x: x
+            in ["plate", "plater", "front", "rear", "side", "sideb"],
+            "hash_array": lambda x: isinstance(x, list) and len(x) == 2,
         }
 
         for group in cls.JSON_SCHEMA:
-
             print(f"{group}: {cls.JSON_SCHEMA[group].items()}")
-            result = result and validate_element(cls.JSON_SCHEMA[group], json_obj, "")
+            result = result and validate_element_structural(
+                cls.JSON_SCHEMA[group], json_obj, ""
+            )
+            result = result and validate_element_functional(
+                cls.JSON_SCHEMA[group], json_obj
+            )
 
         if result:
-            print("OK")
+            return True, None
         else:
-            print("not OK")
-            print(json.dumps(log))
-            json.dump(log, open("result.json", "w", encoding="utf-8"))
+            return False, json.dumps(log)
 
     @classmethod
     def validate_json_file(cls, json_file):
@@ -394,6 +424,12 @@ if __name__ == "__main__":
     print("Start in debug mode")
     # print('Validating file:', sys.argv[1])
     # WAGA_JSON_VALIDATOR_1_0_5.validate_json_file(sys.argv[1])
-    WAGA_JSON_VALIDATOR_1_0_5.validate_json_file("Pass_8633.json")
-    # WAGA_JSON_VALIDATOR_1_0_5.validate_json_file("2.json")
 
+    result = WAGA_JSON_VALIDATOR_1_0_5.validate_json_file("Pass_8633.json")
+    # result = WAGA_JSON_VALIDATOR_1_0_5.validate_json_file("2.json")
+    if result[0]:
+        print("OK")
+    else:
+        print("not OK")
+        print(json.loads(result[1]))
+        json.dump(json.loads(result[1]), open("result.json", "w", encoding="utf-8"))

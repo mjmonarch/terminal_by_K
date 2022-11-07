@@ -255,11 +255,6 @@ class WAGA_JSON_VALIDATOR_1_0_5:
                         log[path + key] = "missing value"
                     continue
 
-                # # check that value for partucular key in data has appropriate type
-                # if not isinstance(json_schema[key_], type(json_data[key])):
-                #     result = False
-                #     log[path + key] = f"type mismatch: {json_data[key]} is not of type: {type(json_schema[key])}"
-
                 value = json_schema[key_]
                 # if value is a single string
                 if isinstance(value, str):
